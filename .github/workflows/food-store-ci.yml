@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    runs-on: [ubuntu-latest, windows-latest, macos-lastest]
+    runs-on: [ubuntu-latest, windows-latest, macos-latest]
     strategy:
       matrix:
         node-version: [22.x]
