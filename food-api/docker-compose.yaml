@@ -1,0 +1,27 @@
+services:
+  db:
+    image: mysql:latest
+    container_name: db_c
+    environment:
+      MYSQL_HOST: ${DATABASE_HOST}
+      MYSQL_ROOT_PASSWORD: ${USER}
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+    ports:
+      - 3366:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 5
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: pma_c
+    links:
+      - db
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - 8081:80

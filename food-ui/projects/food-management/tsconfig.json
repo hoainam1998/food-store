@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@views/*": ["app/views/*"],
+      "@components/*": ["app/components/*"],
+      "@paths": ["app/route/path.ts"]
+    },
+  }
+}

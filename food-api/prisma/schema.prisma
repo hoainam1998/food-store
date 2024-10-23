@@ -1,0 +1,95 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Category {
+  category_id String @db.VarChar(100) @id
+  avatar String @db.Text
+  name String @db.VarChar(200)
+  foods Food[]
+
+  @@map("categories")
+}
+
+model Food {
+  food_id String @db.VarChar(100) @id
+  name String @db.VarChar(200)
+  price Int
+  price_logged Int
+  price_employee Int
+  discount Int @default(0)
+  amount Int
+  description String @db.Text
+  avatar String @db.Text
+  category Category @relation(fields: [category_id], references: category_id)
+  category_id String @db.VarChar(100)
+  bill_detail BillDetail[]
+  images FoodImage[]
+
+  @@map("foods")
+}
+
+model FoodImage {
+  image_id String @db.VarChar(100) @id
+  food Food @relation(fields: [food_id], references: food_id)
+  food_id String @db.VarChar(100)
+  image String @db.Text
+
+  @@map("food-images")
+}
+
+model Employee {
+  employee_id String @db.VarChar(100) @id
+  first_name String @db.VarChar(250)
+  last_name String @db.VarChar(250)
+  avatar String @db.Text
+  phone_number String @db.VarChar(11)
+  gender Int @db.TinyInt()
+  user_name String
+  password String
+  power Int @db.TinyInt() @default(1)
+  bills Bill[]
+
+  @@map("employees")
+}
+
+model Customer {
+  customer_id String @db.VarChar(100) @id
+  name String @db.VarChar(250)
+  gender Int @db.TinyInt()
+  ward Int
+  street_house_number String @db.Text
+  bills Bill[]
+
+  @@map("customers")
+}
+
+model Bill {
+  bill_id String @db.VarChar(100) @id
+  bill_detail BillDetail[]
+  customer_id String @db.VarChar(100)
+  customer Customer @relation(fields: [customer_id], references: customer_id)
+  employee_id String @db.VarChar(100)
+  employee Employee @relation(fields: [employee_id], references: employee_id)
+  created_at Int
+  total Int
+
+  @@map("bills")
+}
+
+model BillDetail {
+  bill_id String @db.VarChar(100)
+  bill Bill @relation(fields: [bill_id], references: bill_id)
+  food_id String @db.VarChar(100)
+  food Food @relation(fields: [food_id], references: food_id)
+  amount Int
+  total Int
+
+  @@id([bill_id, food_id])
+  @@map("bill-detail")
+}
