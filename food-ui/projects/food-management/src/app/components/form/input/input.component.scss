@@ -1,0 +1,13 @@
+@import 'colors';
+
+.rounded {
+  border-radius: 3px;
+}
+
+.input {
+  border: 1px solid $gray-color;
+  outline: none;
+  min-height: 30px;
+  padding: 0;
+  padding: 0 5px;
+}

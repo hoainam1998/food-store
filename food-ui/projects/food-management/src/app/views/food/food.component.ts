@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'fm-root',
+  selector: 'fm-food',
   standalone: true,
   imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  templateUrl: './food.component.html',
+  styleUrl: './food.component.scss'
 })
-export class AppComponent {}
+export class FoodComponent {
+
+}

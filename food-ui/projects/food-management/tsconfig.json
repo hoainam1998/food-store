@@ -5,7 +5,9 @@
     "paths": {
       "@views/*": ["app/views/*"],
       "@components/*": ["app/components/*"],
-      "@paths": ["app/route/path.ts"]
+      "@paths": ["app/route/path.ts"],
+      "@pipes/*": ["app/pipes/*"],
+      "@images/*": ["app/static/images/*"]
     },
   }
 }

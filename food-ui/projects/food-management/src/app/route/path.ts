@@ -1,4 +1,7 @@
 export default Object.freeze({
   DEFAULT: '',
-  HOME: 'home'
+  HOME: 'home',
+  CATEGORY: 'category',
+  FOOD: 'food',
+  ID: ':/id'
 });

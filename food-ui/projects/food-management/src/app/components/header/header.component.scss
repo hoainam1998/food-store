@@ -1,0 +1,43 @@
+@import 'colors';
+
+.image {
+  width: 70px;
+  height: 70px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $primary-color;
+  padding: 0 7px;
+
+  .logo {
+    @extend .image;
+    cursor: pointer;
+  }
+
+  .login-information {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    .avatar {
+      @extend .image;
+      cursor: pointer;
+    }
+
+    .information {
+      color: $white-color;
+
+      .name {
+        font-size: 15px;
+      }
+
+      .email {
+        font-size: 14px;
+        margin: 0;
+      }
+    }
+  }
+}

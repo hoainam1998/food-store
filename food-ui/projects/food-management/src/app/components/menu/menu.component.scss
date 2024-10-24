@@ -1,0 +1,47 @@
+@import "colors";
+
+.menu {
+  display: flex;
+  background-color: $primary-color;
+  list-style: none;
+  border-radius: 4px;
+  margin: 7px 10px 0 10px;
+  padding: 7px;
+
+  &-item {
+    cursor: pointer;
+    margin-right: 5px;
+
+    &:last-child {
+      margin: 0;
+    }
+
+    &:hover {
+      & > a {
+        color: $primary-color;
+        background-color: $white-color;
+      }
+    }
+
+    & > a {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      color: $white-color;
+      border-radius: 20px;
+      padding: 4px 7px;
+      text-transform: capitalize;
+
+      & > img {
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+
+  .page-active {
+    background-color: $white-color;
+    color: $primary-color;
+  }
+}

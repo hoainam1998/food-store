@@ -1,0 +1,29 @@
+@import 'colors';
+
+.search {
+  display: flex;
+
+  .square {
+    border-radius: 0 !important;
+    border-color: transparent;
+  }
+
+  .search-box {
+    height: 40px;
+    max-height: 40px;
+    border: none !important;
+    width: 100%;
+    font-size: 16px;
+    background-color: $white-color;
+  }
+
+  .search-btn {
+    height: 40px;
+    width: 40px;
+    background: $white-color;
+    border: none;
+    outline: none;
+    border-left: 1.5px solid $gray-color;
+    cursor: pointer;
+  }
+}

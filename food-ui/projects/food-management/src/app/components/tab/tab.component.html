@@ -1,1 +1,29 @@
-<p>tab works!</p>
+<ul class="tabs" #tab>
+  <li class="tab-item">
+    <div class="tab-header tab-active" #first (click)="tabChange($event)">header</div>
+    <div class="tab-body" [style]="{
+        width: tab.clientWidth | styleUnit,
+        height: (tab.clientHeight - first.clientHeight) | styleUnit
+      }">
+      tab 1
+    </div>
+  </li>
+  <li class="tab-item">
+    <div class="tab-header" #second (click)="tabChange($event)">header</div>
+    <div class="tab-body"  [style]="{
+        width: tab.clientWidth | styleUnit,
+        height: (tab.clientHeight - second.clientHeight) | styleUnit
+      }">
+      tab 2
+    </div>
+  </li>
+  <li class="tab-item">
+    <div class="tab-header" #third (click)="tabChange($event)">header</div>
+    <div class="tab-body" [style]="{
+        width: tab.clientWidth | styleUnit,
+        height: (tab.clientHeight - third.clientHeight) | styleUnit
+      }">
+      tab 3
+    </div>
+  </li>
+</ul>

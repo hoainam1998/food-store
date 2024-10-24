@@ -1,5 +1,7 @@
 @import 'colors';
 
-.home {
-  color: $black-color;
+.content {
+  gap: 7px;
+  padding: 10px;
+  height: calc(100vh - calc(70px + 28px + 54px + 20px));
 }

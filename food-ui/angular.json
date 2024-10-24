@@ -124,6 +124,11 @@
               {
                 "glob": "**/*",
                 "input": "projects/food-management/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/food-management/src/app/static/images",
+                "output": "/images"
               }
             ],
             "styles": [

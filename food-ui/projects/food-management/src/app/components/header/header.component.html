@@ -1,1 +1,11 @@
-<p>header works!</p>
+<header class="header">
+  <img src="/images/logo.png" class="logo" alt="logo" />
+  <fm-search (search)="search($event)"></fm-search>
+  <div class="login-information">
+    <img src="/images/logo.png" class="avatar" alt="avatar" />
+    <div class="information">
+      <span class="name">name</span>
+      <p class="email">email</p>
+    </div>
+  </div>
+</header>
