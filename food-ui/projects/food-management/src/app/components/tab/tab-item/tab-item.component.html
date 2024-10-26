@@ -1,0 +1,10 @@
+<ng-template #tabItem let-tab="tab">
+  <li class="tab-item">
+    <div class="tab-header" [ngClass]="{ 'tab-active': active }" [tab]="tab" [tabBody]="tabBody" tabBehavior>
+      <ng-content select="tab-header"></ng-content>
+    </div>
+    <div class="tab-body" #tabBody>
+      <ng-content select="tab-body"></ng-content>
+    </div>
+  </li>
+</ng-template>

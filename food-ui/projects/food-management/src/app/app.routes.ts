@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from '@views/login/login.component';
+// import { LoginComponent } from '@views/login/login.component';
 import { HomeComponent } from '@views/home/home.component';
 import { CategoryComponent } from '@views/category/category.component';
 import { FoodComponent } from '@views/food/food.component';
@@ -9,7 +9,9 @@ import paths from '@paths';
 export const routes: Routes = [
   {
     path: paths.DEFAULT,
-    component: LoginComponent,
+    // component: LoginComponent,
+    redirectTo: paths.HOME,
+    pathMatch: 'full'
   },
   {
     path: paths.HOME,
@@ -17,7 +19,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: paths.CATEGORY,
+        redirectTo: paths.FOOD,
         pathMatch: 'full'
       },
       {

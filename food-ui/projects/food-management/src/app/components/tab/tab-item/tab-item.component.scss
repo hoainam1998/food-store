@@ -1,0 +1,28 @@
+@import 'colors';
+
+
+  .tab-header {
+    background-color: transparent;
+    padding: 4px 10px;
+    border-radius: 5px 5px 0 0;
+    text-transform: capitalize;
+    cursor: pointer;
+  }
+
+  .tab-body {
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    height: 100%;
+    padding: 10px;
+    border: 1px solid $gray-color;
+    display: none;
+  }
+
+  .tab-active {
+    background-color: $primary-color;
+    color: $white-color;
+    & + .tab-body {
+      display: block;
+    }
+}

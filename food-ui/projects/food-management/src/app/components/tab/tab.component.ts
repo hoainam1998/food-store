@@ -1,21 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, QueryList, ContentChildren } from '@angular/core';
+import { TabItemComponent } from './tab-item/tab-item.component';
 import { StyleUnitTransformPipe } from '@pipes/style-unit-transform/style-unit-transform.pipe';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'fm-tab',
   standalone: true,
-  imports: [StyleUnitTransformPipe],
+  imports: [StyleUnitTransformPipe, TabItemComponent, NgTemplateOutlet],
   templateUrl: './tab.component.html',
   styleUrl: './tab.component.scss'
 })
 export class TabComponent {
-
-  tabChange(event: Event): void {
-    if (!(event.target as HTMLDivElement).classList.contains('tab-active')) {
-      Array.from(document.getElementsByClassName('tab-active')).forEach(tab => {
-        tab.classList.remove('tab-active');
-      });
-      (event.target as HTMLDivElement).classList.add('tab-active');
-    }
-  }
+  @ContentChildren(TabItemComponent) items?: QueryList<TabItemComponent>;
 }
