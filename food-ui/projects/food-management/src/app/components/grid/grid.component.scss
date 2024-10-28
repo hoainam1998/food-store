@@ -1,0 +1,52 @@
+@import "responsive";
+
+$columns: 12;
+
+.grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat($columns, 1fr);
+}
+
+@mixin grid-row-cols($column, $size: "") {
+  @if ($size != "") {
+    .row-cols-#{$size}-#{$column} {
+      & > * {
+        grid-column: span calc($columns / $column);
+      }
+    }
+  } @else {
+    .row-cols-#{$column} {
+      & > * {
+        grid-column: span calc($columns / $column);
+      }
+    }
+  }
+}
+
+@mixin grid-cols($column, $size: "") {
+  @if ($size != "") {
+    .col-#{$size}-#{$column} {
+      grid-column: span $column !important;
+    }
+  } @else {
+    .col-#{$column} {
+      grid-column: span $column;
+    }
+  }
+}
+
+@for $i from 1 through $columns {
+  @include grid-row-cols($i);
+  @include grid-cols($i);
+
+  @include tablet {
+    @include grid-cols($i, "md");
+    @include grid-row-cols($i, "md");
+  }
+
+  @include mobile {
+    @include grid-cols($i, "sx");
+    @include grid-row-cols($i, "sx");
+  }
+}

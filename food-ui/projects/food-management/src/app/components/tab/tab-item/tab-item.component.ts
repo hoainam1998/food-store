@@ -1,6 +1,6 @@
 import { booleanAttribute, Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { StyleUnitTransformPipe } from '@pipes/style-unit-transform/style-unit-transform.pipe';
-import { TabBehaviorDirective } from './tab-behavior.directive';
+import { TabBehaviorDirective } from './directives/tab-behavior.directive';
 import { NgClass, NgStyle } from '@angular/common';
 
 @Component({

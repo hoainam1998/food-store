@@ -23,6 +23,7 @@ module.exports = tseslint.config(
           style: "kebab-case",
         },
       ],
+      "@angular-eslint/no-inputs-metadata-property": "off",
       "semi": "error",
       "max-len": [2, 120, 2],
       "no-console": "off",
