@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/directive-selector */
 import { Directive, ElementRef, HostListener, AfterViewInit, Input } from '@angular/core';
 
 @Directive({

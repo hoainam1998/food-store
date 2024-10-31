@@ -1,0 +1,13 @@
+<fieldset class="form-control">
+  <div class="field">
+    @if (label) {
+      <label class="label">{{ label }}</label>
+    }
+    <ng-content></ng-content>
+  </div>
+  @if (haveError) {
+    @if (haveRequireError) {
+      <p class="ng-invalid">Name is required.</p>
+    }
+  }
+</fieldset>

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
-import { FormsModule,  } from '@angular/forms';
-import { InputComponent } from '@components/form/input/input.component';
+import { FormsModule } from '@angular/forms';
+import { InputComponent } from '@components/form/form-control/input/input.component';
 
 @Component({
   selector: 'fm-search',

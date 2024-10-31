@@ -1,0 +1,25 @@
+@import 'colors';
+
+.form-control {
+  border: none;
+  outline: none;
+  padding: 0;
+  width: 100%;
+
+  .field {
+    display: flex;
+    align-items: center;
+
+    & > .label {
+      font-weight: bold;
+      margin-right: 7px;
+    }
+  }
+}
+
+.ng-invalid:not(form)  {
+  color: $error-color;
+  font-size: 14px;
+  margin: 0;
+  font-weight: 600;
+}

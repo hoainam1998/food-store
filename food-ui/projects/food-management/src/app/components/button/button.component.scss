@@ -1,0 +1,12 @@
+@import 'colors';
+
+.button {
+  border: none;
+  border-radius: 3px;
+  min-height: 30px;
+  min-width: 50px;
+  color: $white-color;
+  font-size: 15px;
+  cursor: pointer;
+  background-color: $primary-color;
+}
