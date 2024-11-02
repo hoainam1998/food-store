@@ -12,3 +12,7 @@
   min-height: 30px;
   padding: 0 5px;
 }
+
+.error {
+  border: 1px solid $error-color;
+}

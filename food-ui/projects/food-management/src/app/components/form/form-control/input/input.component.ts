@@ -1,8 +1,21 @@
+import { NgClass } from '@angular/common';
 import {
-  Component, ElementRef, Renderer2, EventEmitter, Input, Output, Injector } from '@angular/core';
+  Component,
+  ElementRef,
+  Renderer2,
+  EventEmitter,
+  Input,
+  Output,
+  Injector,
+} from '@angular/core';
+
 import {
-  ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import { FormControlComponent } from '@components/form/form-control/form-control.component';
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule
+} from '@angular/forms';
+
+import { FormControlComponent, CONTROL_TYPE } from '@components/form/form-control/form-control.component';
 
 function stringTrim(value: string): string {
   return value.trim();
@@ -11,54 +24,27 @@ function stringTrim(value: string): string {
 @Component({
   selector: 'fm-input',
   standalone: true,
-  imports: [FormsModule, FormControlComponent, ReactiveFormsModule],
+  imports: [FormsModule, FormControlComponent, ReactiveFormsModule, NgClass],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       multi: true,
       // eslint-disable-next-line no-use-before-define
       useExisting: InputComponent
-    },
+    }
   ],
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss'
 })
-export class InputComponent extends FormControlComponent implements ControlValueAccessor {
+export class InputComponent extends FormControlComponent{
   @Input({ transform: stringTrim }) type = 'text';
   @Input({ transform: stringTrim, required: true }) name = '';
   @Input({ required: false, transform: stringTrim }) classes = '';
   @Output() valueChange = new EventEmitter<Event>();
 
-  changeFn?: (value: string) => void;
-  blurFn?: (value: Event) => void;
-
-  constructor(private render: Renderer2, private bindingElement: ElementRef, inj: Injector) {
-    super(inj);
-  }
-
-  setProperty(property: string, value: string | number | boolean): void {
-    this.render.setProperty(
-      this.bindingElement.nativeElement.querySelector('.input'),
-      property,
-      value
-    );
-  }
-
-
-  writeValue(value: string): void {
-    this.setProperty('value', value);
-  }
-
-  registerOnChange(fn: (value: string) => void): void {
-    this.changeFn = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.blurFn = fn;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    this.setProperty('disabled', isDisabled);
+  constructor(
+    render: Renderer2, bindingElement: ElementRef, inj: Injector) {
+    super(inj, render, bindingElement, CONTROL_TYPE.INPUT);
   }
 
   change(event: Event): void {

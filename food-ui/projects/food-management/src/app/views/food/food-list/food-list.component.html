@@ -1,8 +1,9 @@
 <fm-table [fields]="fields" [data]="data">
   <ng-template #price let-item="item" tableColumnTemplate="price">
-    <span>{{item.price}}</span>
+    <span>{{ item.price }}</span>
   </ng-template>
   <ng-template #name tableColumnTemplate="name">
     <span>name</span>
   </ng-template>
 </fm-table>
+<fm-select [options]="options" [(ngModel)]="pageSize" />

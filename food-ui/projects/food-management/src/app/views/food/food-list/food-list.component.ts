@@ -1,15 +1,28 @@
 import { Component } from '@angular/core';
 import { TableComponent, Fields } from '@components/table/table.component';
+import { SelectComponent, IOptions } from '@components/form/form-control/select/select.component';
 import { TableColumnTemplateDirective } from '@components/table/directives/table-column-template.directive';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+interface IFoodDataInformation  {
+  name: string;
+  price: number;
+}
 
 @Component({
   selector: 'fm-food-list',
   standalone: true,
-  imports: [TableComponent, TableColumnTemplateDirective],
+  imports: [TableComponent, SelectComponent, TableColumnTemplateDirective, FormsModule, ReactiveFormsModule],
   templateUrl: './food-list.component.html',
   styleUrl: './food-list.component.scss',
 })
 export class FoodListComponent {
+  constructor() {
+    new TableComponent<IFoodDataInformation>();
+  }
+
+  pageSize = 10;
+
   fields: Fields[] = [
     {
       key: 'name',
@@ -21,7 +34,7 @@ export class FoodListComponent {
     },
   ];
 
-  data = [
+  data: IFoodDataInformation[] = [
     {
       name: 'name 1',
       price: 1000
@@ -29,6 +42,21 @@ export class FoodListComponent {
     {
       name: 'name 1',
       price: 1000
+    }
+  ];
+
+  options: IOptions[] = [
+    {
+      value: 10,
+      label: '10'
+    },
+    {
+      value: 30,
+      label: '30'
+    },
+    {
+      value: 50,
+      label: '50'
     }
   ];
 }

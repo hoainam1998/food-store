@@ -1,3 +1,10 @@
 <fm-form-control [label]="label">
-  <input class="input rounded form-control" #input [class]="classes" [type]="type" [name]="name" (input)="change($event)" (blur)="blurFn!($event)"/>
+  <input
+    class="input rounded"
+    [class]="classes"
+    [ngClass]="{ 'error': this.haveError }"
+    [type]="type"
+    [name]="name"
+    (input)="change($event)"
+    (blur)="blurFn!($event)"/>
 </fm-form-control>

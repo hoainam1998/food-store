@@ -20,14 +20,13 @@ export interface Fields extends HeaderProps{
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
-export class TableComponent {
+export class TableComponent<T> {
   @Input({ required: true }) fields: Fields[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  @Input({ required: true }) data: any[] = [];
+  @Input({ required: true }) data: T[] = [];
   @ContentChildren(TemplateRef) templates?: QueryList<TemplateRef<unknown>>;
   @ContentChildren(TableColumnTemplateDirective) columnTemplates?: QueryList<TableColumnTemplateDirective>;
 
-  getTemplate(key: string) {
+  getTemplate(key: keyof T) {
     return this.columnTemplates?.find(template => template.tableColumnTemplate === key)?.el;
   }
 
@@ -52,7 +51,7 @@ export class TableComponent {
     });
   });
 
-  keys: Signal<string[]> = computed(() => {
-    return this.fields.map(field => field.key);
+  keys: Signal<(keyof T)[]> = computed(() => {
+    return this.fields.map(field => field.key as keyof T);
   });
 }
