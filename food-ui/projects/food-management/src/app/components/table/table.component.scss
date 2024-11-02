@@ -1,0 +1,27 @@
+@import "colors";
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    background-color: $primary-color;
+
+    th {
+      padding: 5px 10px;
+      text-transform: capitalize;
+      color: $white-color;
+    }
+  }
+
+  tr {
+    & > td {
+      padding: 2px 7px;
+    }
+
+    &:nth-child(even) {
+      background-color: $even-row-color;
+      color: $white-color;
+    }
+  }
+}

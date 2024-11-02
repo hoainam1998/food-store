@@ -1,0 +1,38 @@
+<ng-template #name>
+  <ng-content select="name"></ng-content>
+  <ng-content select="price"></ng-content>
+</ng-template>
+<table class="table">
+  <colgroup>
+    @for(size of columnWidth(); track $index) {
+      <col [style]="size">
+    }
+  </colgroup>
+  <thead>
+    <tr>
+      @for(header of headers(); track $index) {
+        <th [class]="header.class" [style]="header.style">
+          {{ header.label }}
+        </th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for(row of data; track $index) {
+      <tr>
+        @for(key of keys(); track $index; let i = $index) {
+          <td>
+            @let template = getTemplate(key);
+            @if (template) {
+              <ng-container
+                [ngTemplateOutlet]="template"
+                [ngTemplateOutletContext]="{ item: row }" />
+            } @else {
+              {{ row[key] }}
+            }
+          </td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>

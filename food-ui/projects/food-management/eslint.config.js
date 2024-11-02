@@ -7,11 +7,12 @@ module.exports = tseslint.config(
   {
     files: ["**/*.ts"],
     rules: {
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
       "@angular-eslint/directive-selector": [
         "error",
         {
           type: "attribute",
-          prefix: "app",
+          prefix: "",
           style: "camelCase",
         },
       ],
@@ -29,7 +30,7 @@ module.exports = tseslint.config(
       "no-console": "off",
       "prefer-promise-reject-errors": "off",
       "camelcase": "error",
-      "no-unused-vars": "error",
+      "no-unused-vars": "off",
       "no-unexpected-multiline": "error",
       "no-unreachable": "error",
       "no-use-before-define": "error",
@@ -41,7 +42,8 @@ module.exports = tseslint.config(
     files: ["**/*.html"],
     rules: {
       "@angular-eslint/template/click-events-have-key-events": "off",
-      "@angular-eslint/template/interactive-supports-focus": "off"
+      "@angular-eslint/template/interactive-supports-focus": "off",
+      "@angular-eslint/template/label-has-associated-control": "off",
     },
   }
 );
