@@ -36,7 +36,7 @@ function stringTrim(value: string): string {
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss'
 })
-export class InputComponent extends FormControlComponent{
+export class InputComponent extends FormControlComponent {
   @Input({ transform: stringTrim }) type = 'text';
   @Input({ transform: stringTrim, required: true }) name = '';
   @Input({ required: false, transform: stringTrim }) classes = '';

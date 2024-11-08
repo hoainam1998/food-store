@@ -1,9 +1,17 @@
-import { Component, ElementRef, Inject, InjectionToken, Injector, Input, Renderer2 } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  InjectionToken,
+  Injector,
+  Input,
+  Renderer2,
+} from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 export enum CONTROL_TYPE {
   INPUT = 'input',
-  SELECT = 'select'
+  SELECT = 'select',
 }
 
 export const CONTROL_TYPE_ENUM_TOKEN = new InjectionToken<CONTROL_TYPE>('control type enum');
@@ -23,17 +31,19 @@ export const CONTROL_TYPE_ENUM_TOKEN = new InjectionToken<CONTROL_TYPE>('control
 })
 export class FormControlComponent implements ControlValueAccessor {
   @Input({ required: false }) label = '';
-  changeFn?: (value: string) => void;
+  @Input() className = '';
+  @Input() fieldClass = '';
+  changeFn?: (value: string | number | File[]) => void;
   blurFn?: (value: Event) => void;
 
   constructor(
     private inj: Injector,
-    private render: Renderer2,
-    private bindingElement: ElementRef,
-    @Inject(CONTROL_TYPE_ENUM_TOKEN) private controlType: CONTROL_TYPE
+    protected render: Renderer2,
+    protected bindingElement: ElementRef,
+    @Inject(CONTROL_TYPE_ENUM_TOKEN) protected controlType: CONTROL_TYPE
   ) {}
 
-  setProperty(property: string, value: string | number | boolean): void {
+  setProperty(property: string, value: string | number | boolean | File[] | FileList): void {
     this.render.setProperty(
       this.bindingElement.nativeElement.querySelector(this.controlType),
       property,
@@ -41,11 +51,11 @@ export class FormControlComponent implements ControlValueAccessor {
     );
   }
 
-  writeValue(value: string): void {
+  writeValue(value: string | number | File[] | FileList): void {
     this.setProperty('value', value);
   }
 
-  registerOnChange(fn: (value: string) => void): void {
+  registerOnChange(fn: (value: string | number | File[]) => void): void {
     this.changeFn = fn;
   }
 

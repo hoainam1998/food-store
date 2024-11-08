@@ -1,0 +1,19 @@
+<fm-form-control label="avatar">
+  <div class="image-select-box error"
+    draggable="true"
+    [class]="{ 'error': this.haveError }"
+    [imageSelectBox]="imagePreview"
+    (fileChanged)="changeFn!($event)">
+      <input type="file" multiple [name]="name" imageFileInput (change)="change($event)" />
+      <div class="images-preview-box">
+        <ng-container #imagePreviewBox></ng-container>
+      </div>
+  </div>
+</fm-form-control>
+
+<ng-template let-file="file" let-remove="remove" #imagePreview>
+  <div class="image-wrapper">
+    <img [src]="file" alt="image-preview" />
+    <span class="remove" (click)="remove($event)">x</span>
+  </div>
+</ng-template>

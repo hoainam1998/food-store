@@ -1,13 +1,16 @@
-<fieldset class="form-control">
-  <div class="field">
+<fieldset class="form-control" [class]="className">
+  <div class="field" [class]="fieldClass">
     @if (label) {
       <label class="label">{{ label }}</label>
     }
-    <ng-content></ng-content>
+    <ng-content #inputElement></ng-content>
   </div>
   @if (haveError) {
     @if (haveRequireError) {
-      <p class="ng-invalid">Name is required.</p>
+      <p class="ng-invalid">
+        <span>{{ label }}</span>
+        is required.
+      </p>
     }
   }
 </fieldset>
