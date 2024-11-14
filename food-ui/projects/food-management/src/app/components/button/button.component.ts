@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Attribute } from '@angular/core';
 
 @Component({
   selector: 'fm-button',
@@ -8,5 +8,7 @@ import { Component, Input } from '@angular/core';
   styleUrl: './button.component.scss'
 })
 export class ButtonComponent {
-  @Input({ required: false }) type?: string;
+  constructor(
+    @Attribute('class') readonly className: string,
+    @Attribute('type') readonly buttonType: string) {}
 }

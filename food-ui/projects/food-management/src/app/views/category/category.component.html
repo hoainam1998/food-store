@@ -1,1 +1,15 @@
-<p>category works!</p>
+<fm-grid>
+  <fm-grid-item lg="8">
+    <fm-table [fields]="fields" [data]="data"></fm-table>
+  </fm-grid-item>
+  <fm-grid-item lg="4">
+    <fm-form
+      (formSubmit)="formSubmit($event)"
+      [form]="categoryFormGroups"
+      [forms]="categoryForm">
+      <ng-template formTemplate="name" let-control="control">
+        <span>{{control.value}}</span>
+      </ng-template>
+    </fm-form>
+  </fm-grid-item>
+</fm-grid>

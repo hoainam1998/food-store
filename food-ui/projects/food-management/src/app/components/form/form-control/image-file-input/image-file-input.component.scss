@@ -6,6 +6,7 @@
   width: auto;
   border-radius: 3px;
   border: 3px dashed $image-select-box-color;
+  cursor: pointer;
 
   &::before {
     content: '';

@@ -20,7 +20,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: paths.FOOD,
+        redirectTo: paths.CATEGORY,
         pathMatch: 'full'
       },
       {

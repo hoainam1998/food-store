@@ -1,4 +1,34 @@
-<form class="form">
-  <ng-content></ng-content>
-  <fm-button type="submit">Save</fm-button>
+<form class="form" [formGroup]="form!" (ngSubmit)="onSubmit($event)">
+  <fm-grid>
+    @for (formControl of forms; track $index) {
+      @let formTemplate = getFormTemplate(formControl.key);
+      <ng-template #field>
+        @if (formTemplate) {
+          <ng-container
+            [ngTemplateOutlet]="formTemplate!"
+            [ngTemplateOutletContext]="{ control: getControlName(formControl.key) }"
+          >
+          <ng-content></ng-content>
+        </ng-container>
+        } @else {
+          <ng-content></ng-content>
+        }
+      </ng-template>
+      <fm-grid-item [lg]="formControl.cols.lg" [md]="formControl.cols.md" [sx]="formControl.cols.sx">
+        @switch (formControl.type) {
+          @case ('file') {
+              <ng-container [ngTemplateOutlet]="field">
+                <fm-image-file-input name="avatar" [formControlName]="formControl.key"></fm-image-file-input>
+              </ng-container>
+          }
+          @default {
+              <ng-container [ngTemplateOutlet]="field">
+                <fm-input [label]="formControl.label" [name]="formControl.name" [formControlName]="formControl.key"></fm-input>
+              </ng-container>
+          }
+        }
+      </fm-grid-item>
+    }
+  </fm-grid>
+  <fm-button type="submit" class="submit-btn">Save</fm-button>
 </form>

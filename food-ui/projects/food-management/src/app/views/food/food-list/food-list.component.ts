@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { TableComponent, Fields } from '@components/table/table.component';
 import { SelectComponent, IOptions } from '@components/form/form-control/select/select.component';
 import { TableColumnTemplateDirective } from '@components/table/directives/table-column-template.directive';
-import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImageFileInputComponent } from '@components/form/form-control/image-file-input/image-file-input.component';
-import { Utils } from '@utils/utils';
 
 interface IFoodDataInformation  {
   name: string;
@@ -26,17 +25,7 @@ interface IFoodDataInformation  {
   styleUrl: './food-list.component.scss',
 })
 export class FoodListComponent {
-  constructor() {
-    new TableComponent<IFoodDataInformation>();
-  }
-
-  ngOnInit() {
-    Utils.convertBase64ToFile('f').then((file) => this.avatar.setValue([file]));
-  }
-
   pageSize = 10;
-
-  avatar = new FormControl<File[]>([], [Validators.required]);
 
   fields: Fields[] = [
     {

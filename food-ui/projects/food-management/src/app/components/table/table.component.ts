@@ -2,13 +2,13 @@ import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import { Component, ContentChildren, Input, QueryList, Signal, TemplateRef, computed } from '@angular/core';
 import { TableColumnTemplateDirective } from './directives/table-column-template.directive';
 
-interface HeaderProps {
+interface HeaderTableProps {
   class?: string;
   style?: Omit<CSSStyleDeclaration, 'width' | 'minWidth' | 'maxWidth'>;
   label?: string;
 }
 
-export interface Fields extends HeaderProps{
+export interface Fields extends HeaderTableProps {
   key: string;
   width?: number | string;
 }
@@ -41,7 +41,7 @@ export class TableComponent<T> {
     });
   });
 
-  headers: Signal<HeaderProps[]> = computed(() => {
+  headers: Signal<HeaderTableProps[]> = computed(() => {
     return this.fields.map(field => {
       return {
         class: field.class,
