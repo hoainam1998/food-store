@@ -1,0 +1,24 @@
+<ul class="pagination">
+  <li class="page">
+    <button class="page-btn" (click)="head()">&#x21e4;</button>
+  </li>
+  <li class="page">
+    <button class="page-btn" (click)="previous()">&#8592;</button>
+  </li>
+  @for(page of pages; track $index) {
+    <li class="page">
+      <button
+        class="page-btn"
+        (click)="!page.dots && pageClick(page.page!)"
+        [class]="{ 'dots': page.dots, 'active': page.active }">
+        {{ page.page ?? '...' }}
+    </button>
+    </li>
+  }
+  <li class="page">
+    <button class="page-btn" (click)="next()">&#x2192;</button>
+  </li>
+  <li class="page">
+    <button class="page-btn" (click)="tail()">&#x21e5;</button>
+  </li>
+</ul>

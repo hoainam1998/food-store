@@ -1,5 +1,6 @@
 import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import { Component, ContentChildren, Input, QueryList, Signal, TemplateRef, computed } from '@angular/core';
+import { PaginationComponent } from '@components/pagination/pagination.component';
 import { TableColumnTemplateDirective } from './directives/table-column-template.directive';
 
 interface HeaderTableProps {
@@ -16,7 +17,7 @@ export interface Fields extends HeaderTableProps {
 @Component({
   selector: 'fm-table',
   standalone: true,
-  imports: [NgStyle, NgTemplateOutlet],
+  imports: [PaginationComponent, NgStyle, NgTemplateOutlet],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
