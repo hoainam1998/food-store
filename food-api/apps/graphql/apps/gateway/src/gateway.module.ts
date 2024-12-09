@@ -4,23 +4,29 @@ import { GatewayService } from './gateway.service';
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { IntrospectAndCompose } from '@apollo/gateway';
-import { portConfig } from '@share/config/database.config';
-import { ConfigModule } from '@nestjs/config';
+import { graphqlUrl, portConfig } from '@share/config/environment.config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloGatewayDriverConfig>({
+    GraphQLModule.forRootAsync<ApolloGatewayDriverConfig>({
       driver: ApolloGatewayDriver,
-      gateway: {
-        supergraphSdl: new IntrospectAndCompose({
-          subgraphs: [
-            { name: 'category', url: 'http://localhost:3003/graphql' },
-          ],
-        }),
-      },
+      useFactory: (configService: ConfigService) => ({
+        gateway: {
+          supergraphSdl: new IntrospectAndCompose({
+            subgraphs: [
+              {
+                name: 'category',
+                url: configService.get<string>('CATEGORY_GRAPHQL_URL'),
+              },
+            ],
+          }),
+        },
+      }),
+      inject: [ConfigService],
     }),
     ConfigModule.forRoot({
-      load: [portConfig],
+      load: [portConfig, graphqlUrl],
       isGlobal: true,
     }),
   ],

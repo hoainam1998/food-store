@@ -11,7 +11,6 @@ export class CategoryResolver {
     @Args('categoryName', { type: () => String }) categoryName: string,
   ): Promise<string> {
     console.log('zoooooo');
-    console.log(categoryName);
     // const newCategory = {
     //   ...category,
     //   category_id: category.categoryId.toString(),

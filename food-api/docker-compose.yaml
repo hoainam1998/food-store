@@ -62,28 +62,35 @@ services:
       gateway:
         condition: service_healthy
 
-  # category-graphql:
-  #   build:
-  #     context: .
-  #     args:
-  #       NAME: start category-graphql
-  #       TSCONFIG: --path apps/graphql/apps/share/apps/category/tsconfig.app.json
-  #       CLI: --config apps/graphql/apps/share/nest-cli.json
-  #   container_name: category_graphql_c
-  #   ports:
-  #     - ${CATEGORY_GRAPHQL_PORT}:${CATEGORY_GRAPHQL_PORT}
-  #   depends_on:
-  #     - db
+  category-graphql:
+    build:
+      context: .
+      args:
+        NAME: start category-graphql
+        TSCONFIG: --path apps/graphql/apps/share/apps/category/tsconfig.app.json
+        CLI: --config apps/graphql/apps/share/nest-cli.json
+    container_name: category_graphql_c
+    environment:
+      CATEGORY_GRAPHQL_PORT: ${CATEGORY_GRAPHQL_PORT}
+    ports:
+      - ${CATEGORY_GRAPHQL_PORT}:${CATEGORY_GRAPHQL_PORT}
+    healthcheck:
+      test: "wget --spider http://localhost:3003/health || exit 1"
+    depends_on:
+      - db
 
-  # gateway-graphql:
-    # build:
-    #   context: .
-    #   args:
-    #     NAME: start gateway-graphql
-    #     TSCONFIG: --path apps/graphql/apps/gateway/tsconfig.app.json
-    #     CLI: --config apps/graphql/apps/nest-cli.json
-    # container_name: gateway_graphql_c
-    # ports:
-    #   - ${GRAPHQL_GATEWAY}:${GRAPHQL_GATEWAY}
-    # depends_on:
-    #   - db
+  gateway-graphql:
+    build:
+      context: .
+      args:
+        NAME: start gateway-graphql
+        TSCONFIG: --path apps/graphql/apps/gateway/tsconfig.app.json
+        CLI: --config apps/graphql/nest-cli.json
+    container_name: gateway_graphql_c
+    environment:
+      CATEGORY_GRAPHQL_URL: 'http://category-graphql:${CATEGORY_GRAPHQL_PORT}/graphql'
+    ports:
+      - ${GRAPHQL_GATEWAY}:${GRAPHQL_GATEWAY}
+    depends_on:
+      category-graphql:
+        condition: service_healthy

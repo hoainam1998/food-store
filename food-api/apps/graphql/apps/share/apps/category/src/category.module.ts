@@ -3,30 +3,32 @@ import {
   ApolloFederationDriver,
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
+import { TerminusModule } from '@nestjs/terminus';
+import { HttpModule } from '@nestjs/axios';
 import { GraphQLModule } from '@nestjs/graphql';
 import { CategoryService } from './category.service';
 import { CategoryResolver } from './category.resolver';
 import { ConfigModule } from '@nestjs/config';
-import { portConfig } from '@share/config/database.config';
 import { join } from 'path';
-
-console.log(process.cwd());
+import { HealthController } from './category-health.controller';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
       autoSchemaFile: {
-        path: join(`${process.cwd()}/category.schema.gql`),
+        path: join(`${process.cwd()}/apps/category/src/category.schema.gql`),
         federation: 2,
       },
     }),
     ConfigModule.forRoot({
-      load: [portConfig],
       isGlobal: true,
+      envFilePath: join(`${process.cwd()}/.category.env`),
     }),
+    TerminusModule,
+    HttpModule,
   ],
-  controllers: [],
+  controllers: [HealthController],
   providers: [CategoryService, CategoryResolver],
 })
 export class CategoryModule {}

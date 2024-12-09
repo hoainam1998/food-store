@@ -18,7 +18,7 @@
     "category-graphql": {
       "type": "application",
       "root": "apps/category",
-      "entryFile": "apps/graphql/apps/share/apps/category/src/main",
+      "entryFile": "main",
       "sourceRoot": "apps/category/src",
       "compilerOptions": {
         "tsConfigPath": "apps/category/tsconfig.app.json"
