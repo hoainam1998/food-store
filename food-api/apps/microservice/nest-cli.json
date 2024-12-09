@@ -1,0 +1,28 @@
+{
+  "monorepo": true,
+  "root": "apps/category",
+  "sourceRoot": "apps/category/src",
+  "compilerOptions": {
+    "tsConfigPath": "apps/category/tsconfig.app.json"
+  },
+  "projects": {
+    "main": {
+      "type": "application",
+      "root": "apps/main",
+      "entryFile": "main",
+      "sourceRoot": "apps/main/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/main/tsconfig.app.json"
+      }
+    },
+    "category-microservice": {
+      "type": "application",
+      "root": "apps/category",
+      "entryFile": "apps/microservice/apps/category/src/main",
+      "sourceRoot": "apps/category/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/category/tsconfig.app.json"
+      }
+    }
+  }
+}
