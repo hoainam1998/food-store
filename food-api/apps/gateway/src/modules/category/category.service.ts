@@ -20,6 +20,7 @@ export class CategoryService {
       return this.client.send({ cmd: CREATE_CATEGORY }, category);
     } catch (err) {
       this.logger.error(err.message);
+      throw err;
     }
   }
 }

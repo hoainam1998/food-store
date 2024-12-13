@@ -6,7 +6,7 @@ import { ConfigService } from '@nestjs/config';
 async function bootstrap() {
   const app = await NestFactory.create(GatewayModule);
   const configService = app.get(ConfigService);
-  const port = configService.get<number>('ports.GRAPHQL_GATEWAY');
+  const port = configService.get<number>('ports.GRAPHQL_GATEWAY') ?? 3002;
   await app.listen(port, () => Logger.log(`Graphql gateway start at ${port}`));
 }
 bootstrap();

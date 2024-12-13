@@ -1,18 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TerminusModule } from '@nestjs/terminus';
-import { ConfigModule } from '@nestjs/config';
 import { CategoryModule } from './modules/category/category.module';
-import { portConfig } from '@share/config/environment.config';
 import { HealthController } from './health/health.controller';
 import { HttpModule } from '@nestjs/axios';
+import { EnvironmentConfigModule } from '@share/config/environment-config.module';
 
 @Module({
   imports: [
     CategoryModule,
-    ConfigModule.forRoot({
-      load: [portConfig],
-      isGlobal: true,
-    }),
+    EnvironmentConfigModule,
     TerminusModule,
     HttpModule,
   ],

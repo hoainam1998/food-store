@@ -1,14 +1,18 @@
 import { Module } from '@nestjs/common';
-import { GatewayController } from './gateway.controller';
-import { GatewayService } from './gateway.service';
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { IntrospectAndCompose } from '@apollo/gateway';
-import { graphqlUrl, portConfig } from '@share/config/environment.config';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
+import { HttpModule } from '@nestjs/axios';
+import { CategoryController } from './category/category.controller';
+import { CategoryService } from './category/category.service';
+import { EnvironmentConfigModule } from '@share/config/environment-config.module';
+import { config } from 'dotenv';
+config();
 
 @Module({
   imports: [
+    EnvironmentConfigModule,
     GraphQLModule.forRootAsync<ApolloGatewayDriverConfig>({
       driver: ApolloGatewayDriver,
       useFactory: (configService: ConfigService) => ({
@@ -25,12 +29,17 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
       inject: [ConfigService],
     }),
-    ConfigModule.forRoot({
-      load: [portConfig, graphqlUrl],
-      isGlobal: true,
+    HttpModule.registerAsync({
+      useFactory: (config: ConfigService) => {
+        return {
+          baseURL: config.get<string>('CATEGORY_GRAPHQL_URL'),
+          timeout: 5000,
+        };
+      },
+      inject: [ConfigService],
     }),
   ],
-  controllers: [GatewayController],
-  providers: [GatewayService],
+  controllers: [CategoryController],
+  providers: [CategoryService],
 })
 export class GatewayModule {}

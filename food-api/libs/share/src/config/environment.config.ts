@@ -11,9 +11,11 @@ export const portConfig = registerAs('ports', () => ({
   CATEGORY_GRAPHQL_PORT: process.env.CATEGORY_GRAPHQL_PORT,
   GRAPHQL_GATEWAY: process.env.GRAPHQL_GATEWAY,
   REDIS_SERVER_PORT: process.env.REDIS_SERVER_PORT,
+  CATEGORY_MICROSERVICE_TCP_PORT: process.env.CATEGORY_MICROSERVICE_TCP_PORT,
   REDIS_HOST: process.env.REDIS_HOST,
 }));
 
 export const graphqlUrl = () => ({
   CATEGORY_GRAPHQL_URL: `http://${process.env.CATEGORY_GRAPHQL_HOST}:${process.env.CATEGORY_GRAPHQL_PORT}/graphql`,
+  GRAPHQL_GATEWAY_URL: `http://${process.env.GRAPHQL_GATEWAY_HOST}:${process.env.GRAPHQL_GATEWAY}`,
 });

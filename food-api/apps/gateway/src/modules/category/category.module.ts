@@ -3,13 +3,20 @@ import { CategoryService } from './category.service';
 import { CategoryController } from './category.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { CATEGORY_MICROSERVICE } from './category.di-token';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: CATEGORY_MICROSERVICE,
-        transport: Transport.TCP,
+        useFactory: (config: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            port: config.get<number>('CATEGORY_MICROSERVICE_TCP_PORT'),
+          },
+        }),
+        inject: [ConfigService],
       },
     ]),
   ],

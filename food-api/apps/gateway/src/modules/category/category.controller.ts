@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Logger,
@@ -7,11 +8,11 @@ import {
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CategoryDto } from '@share/dto/category.dto';
 import { ImageUpload } from '@share/decorators/param/image-upload/image-upload.decorator';
-import { plainToClass } from 'class-transformer';
+import { catchError, Observable } from 'rxjs';
+import { CategoryInDTO } from '@share/dto/category/category-in.dto';
 import { IResponse } from '@share';
-import { Observable, of } from 'rxjs';
+import { plainToClass } from 'class-transformer';
 
 @Controller('category')
 export class CategoryController {
@@ -22,19 +23,21 @@ export class CategoryController {
   @Post('create')
   @UseInterceptors(FileInterceptor('avatar'))
   addCategory(
-    @Body() category: CategoryDto,
+    @Body() category: CategoryInDTO,
     @ImageUpload() file: Express.Multer.File,
   ): Observable<IResponse> {
     try {
       this.logger.log('Request income category gateway');
-      return this.categoryService.create(
-        plainToClass(CategoryDto, { ...category, avatar: file }),
-      );
-    } catch (err) {
-      this.logger.error(err.message);
-      return of({
-        message: 'Something got error at category service',
-      });
+      return this.categoryService
+        .create(plainToClass(CategoryInDTO, { ...category, avatar: file }))
+        .pipe(
+          catchError(async (error) => {
+            throw new BadRequestException(error.message);
+          }),
+        );
+    } catch (error) {
+      this.logger.error(error.message);
+      throw new BadRequestException(error.message);
     }
   }
 }

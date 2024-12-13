@@ -8,9 +8,9 @@ import { HttpModule } from '@nestjs/axios';
 import { GraphQLModule } from '@nestjs/graphql';
 import { CategoryService } from './category.service';
 import { CategoryResolver } from './category.resolver';
-import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
-import { HealthController } from './category-health.controller';
+import { HealthController } from './health/health.controller';
+import { ShareModule } from '@share';
 
 @Module({
   imports: [
@@ -21,12 +21,9 @@ import { HealthController } from './category-health.controller';
         federation: 2,
       },
     }),
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: join(`${process.cwd()}/.category.env`),
-    }),
     TerminusModule,
     HttpModule,
+    ShareModule,
   ],
   controllers: [HealthController],
   providers: [CategoryService, CategoryResolver],

@@ -4,7 +4,7 @@ import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
 @ObjectType('CategoryQuery')
 export abstract class Category {
   @Field(() => ID)
-  categoryId: number;
+  category_id: string;
 
   @Field({ nullable: false })
   name: string;

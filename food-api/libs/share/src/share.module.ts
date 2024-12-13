@@ -1,10 +1,10 @@
 import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { PrismaService } from './prisma/prisma.service';
 import { PRISMA } from './share.di-token';
 import { memoryStorage } from 'multer';
-import { databaseConfig, portConfig } from './config/environment.config';
+import { EnvironmentConfigModule } from './config/environment-config.module';
 
 const prismaModule: Provider = {
   provide: PRISMA,
@@ -18,13 +18,8 @@ const upload: DynamicModule = MulterModule.register({
   storage: memoryStorage(),
 });
 
-const config = ConfigModule.forRoot({
-  load: [databaseConfig, portConfig],
-  isGlobal: true,
-});
-
 @Module({
-  imports: [config],
+  imports: [EnvironmentConfigModule],
   providers: [prismaModule, MulterModule],
   exports: [prismaModule, upload],
 })
