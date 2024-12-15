@@ -5,11 +5,12 @@ import { PrismaService } from './prisma/prisma.service';
 import { PRISMA } from './share.di-token';
 import { memoryStorage } from 'multer';
 import { EnvironmentConfigModule } from './config/environment-config.module';
+import { LoggerService } from './logger/logger.service';
 
 const prismaModule: Provider = {
   provide: PRISMA,
   useFactory: (config: ConfigService) => {
-    return new PrismaService(config);
+    return PrismaService.init(config.get<string>('database.DATABASE_URL'));
   },
   inject: [ConfigService],
 };
@@ -20,7 +21,7 @@ const upload: DynamicModule = MulterModule.register({
 
 @Module({
   imports: [EnvironmentConfigModule],
-  providers: [prismaModule, MulterModule],
+  providers: [prismaModule, MulterModule, LoggerService],
   exports: [prismaModule, upload],
 })
 export class ShareModule {}

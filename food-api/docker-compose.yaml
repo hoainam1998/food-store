@@ -36,7 +36,7 @@ services:
   gateway:
     build: .
     environment:
-      DATABASE_URL: mysql://root:root@db:${MYSQL_PORT}/coffee?schema=public
+      DATABASE_URL: mysql://root:root@db:${MYSQL_PORT}/food?schema=public
     container_name: gateway_c
     ports:
      - ${GATEWAY_PORT}:${GATEWAY_PORT}
@@ -55,6 +55,7 @@ services:
         CLI: --config apps/microservice/nest-cli.json
     environment:
       REDIS_HOST: redis-stack
+      GRAPHQL_GATEWAY_HOST: 'gateway-graphql'
     container_name: category_microservice_c
     ports:
      - ${CATEGORY_MICROSERVICE_PORT}:${CATEGORY_MICROSERVICE_PORT}
@@ -72,6 +73,7 @@ services:
     container_name: category_graphql_c
     environment:
       CATEGORY_GRAPHQL_PORT: ${CATEGORY_GRAPHQL_PORT}
+      DATABASE_URL: mysql://root:root@db:${MYSQL_PORT}/food?schema=public
     ports:
       - ${CATEGORY_GRAPHQL_PORT}:${CATEGORY_GRAPHQL_PORT}
     healthcheck:
@@ -89,6 +91,7 @@ services:
     container_name: gateway_graphql_c
     environment:
       CATEGORY_GRAPHQL_URL: 'http://category-graphql:${CATEGORY_GRAPHQL_PORT}/graphql'
+      GRAPHQL_GATEWAY_HOST: 'gateway-graphql'
     ports:
       - ${GRAPHQL_GATEWAY}:${GRAPHQL_GATEWAY}
     depends_on:

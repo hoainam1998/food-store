@@ -1,10 +1,19 @@
 import { PrismaClient } from '@prisma/client';
-import { ConfigService } from '@nestjs/config';
-
+// configService.get<string>('database.DATABASE_URL')
 export class PrismaService extends PrismaClient {
-  constructor(configService: ConfigService) {
+  private static prismaService: PrismaService;
+
+  private constructor(databaseUrl: string) {
     super({
-      datasourceUrl: configService.get<string>('database.DATABASE_URL'),
+      datasourceUrl: databaseUrl,
     });
+  }
+
+  static init(databaseUrl: string): PrismaService {
+    if (!this.prismaService) {
+      this.prismaService = new PrismaService(databaseUrl);
+      return this.prismaService;
+    }
+    return this.prismaService;
   }
 }
