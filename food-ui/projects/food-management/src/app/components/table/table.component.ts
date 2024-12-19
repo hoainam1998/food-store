@@ -1,5 +1,5 @@
 import { NgStyle, NgTemplateOutlet } from '@angular/common';
-import { Component, ContentChildren, Input, QueryList, Signal, TemplateRef, computed } from '@angular/core';
+import { Component, ContentChildren, Input, QueryList, Signal, computed } from '@angular/core';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { TableColumnTemplateDirective } from './directives/table-column-template.directive';
 
@@ -24,7 +24,6 @@ export interface Fields extends HeaderTableProps {
 export class TableComponent<T> {
   @Input({ required: true }) fields: Fields[] = [];
   @Input({ required: true }) data: T[] = [];
-  @ContentChildren(TemplateRef) templates?: QueryList<TemplateRef<unknown>>;
   @ContentChildren(TableColumnTemplateDirective) columnTemplates?: QueryList<TableColumnTemplateDirective>;
 
   getTemplate(key: keyof T) {

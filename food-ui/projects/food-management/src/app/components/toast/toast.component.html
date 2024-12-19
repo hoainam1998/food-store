@@ -1,0 +1,27 @@
+<div class="toast">
+  <div class="toast-header">
+    @if (headerContent) {
+      <ng-container
+      [ngTemplateOutlet]="headerContent"
+      [ngTemplateOutletContext]="{ close: closeToast }" />
+    } @else if (header) {
+      <ng-container
+      [ngTemplateOutlet]="header"
+      [ngTemplateOutletContext]="{ close: closeToast }" />
+    } @else {
+      <h4 class="title">ffff</h4>
+      <button class="close-btn" (click)="closeToast()">x</button>
+    }
+  </div>
+  <div>
+    @if (bodyContent) {
+      <ng-container
+      [ngTemplateOutlet]="bodyContent"
+      [ngTemplateOutletContext]="{ close: closeToast }" />
+    } @else if (body) {
+      <ng-container
+      [ngTemplateOutlet]="body"
+      [ngTemplateOutletContext]="{ close: closeToast }" />
+    }
+  </div>
+</div>

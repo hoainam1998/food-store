@@ -4,12 +4,19 @@
   </fm-grid-item>
   <fm-grid-item lg="4">
     <fm-form
-      (formSubmit)="formSubmit($event)"
+      (formSubmit)="formSubmit()"
       [form]="categoryFormGroups"
-      [forms]="categoryForm">
+      [forms]="categoryForm"
+    >
       <ng-template formTemplate="name" let-control="control">
-        <span>{{control.value}}</span>
+        <span>{{ control.value }}</span>
       </ng-template>
     </fm-form>
   </fm-grid-item>
 </fm-grid>
+<ng-template #header toastBehavior="header" let-close="close">
+  header
+</ng-template>
+<ng-template #body toastBehavior="body" let-close="close">
+  <button (click)="close()">ffff</button>
+</ng-template>

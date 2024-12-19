@@ -6,7 +6,7 @@ import {
   ViewEncapsulation,
   ContentChildren,
   QueryList,
-  TemplateRef
+  TemplateRef,
 } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputComponent } from '@components/form/form-control/input/input.component';
@@ -17,7 +17,7 @@ import { FormTemplateDirective, IFormTemplateProps } from './directive/form-temp
 import { NgTemplateOutlet } from '@angular/common';
 import { GridComponent } from '@components/grid/grid.component';
 import { GridItemComponent } from '@components/grid/grid-item/grid-item.component';
-import { FormControlService } from 'app/services/form-control-service/form-control-service.service';
+import { FormControlService } from 'app/services/form-control-service/form-control.service';
 
 @Component({
   selector: 'fm-form',
@@ -44,8 +44,8 @@ export class FormComponent {
 
   constructor(private formService: FormControlService) {}
 
-  onSubmit(event: Event): void {
-    this.formSubmit?.emit(new FormData(event.target as HTMLFormElement));
+  onSubmit(): void {
+    this.formSubmit?.emit();
   }
 
   getFormTemplate(key: string): TemplateRef<IFormTemplateProps> | undefined {

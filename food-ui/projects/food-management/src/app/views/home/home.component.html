@@ -2,5 +2,16 @@
 <fm-menu></fm-menu>
 <section class="content">
   <router-outlet></router-outlet>
+  <!-- <fm-toast>
+    <ng-template toastBehavior="header" let-close="close">
+      header
+    </ng-template>
+    <ng-template toastBehavior="body" let-close="close">
+      <button (click)="close()">ffff</button>
+    </ng-template>
+  </fm-toast> -->
+  <div class="toast-docker">
+    <ng-container #toastDocker></ng-container>
+  </div>
 </section>
 <fm-footer></fm-footer>

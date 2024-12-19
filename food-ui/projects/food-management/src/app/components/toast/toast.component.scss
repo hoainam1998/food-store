@@ -1,0 +1,36 @@
+@import 'colors';
+
+.toast {
+  margin-top: 7px;
+  min-height: 70px;
+  background-color: $white-color;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  width: 400px;
+  overflow: hidden;
+
+  &-header {
+    height: 35px;
+    background-color: $primary-color;
+    padding: 5px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+
+    .close-btn {
+      background-color: $white-color;
+      border-radius: 50%;
+      outline: none;
+      border: none;
+      width: 25px;
+      height: 25px;
+      font-weight: bold;
+      font-size: 16px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+
+    .title {
+      color: $white-color;
+    }
+  }
+}
