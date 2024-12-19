@@ -11,7 +11,10 @@ async function bootstrap() {
       port,
     },
   });
-  Logger.log(`Category microservice start at port:${port}`);
+  Logger.log(
+    `Category microservice start at port:${port}`,
+    'CategoryMicroserviceBootstrap',
+  );
   await app.listen();
 }
 bootstrap();

@@ -8,7 +8,10 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get<number>('CATEGORY_GRAPHQL_PORT');
   await app.listen(port, () =>
-    Logger.log(`Category graphql start at port: ${port}`),
+    Logger.log(
+      `Category graphql start at port: ${port}`,
+      'CategoryGraphqlBootstrap',
+    ),
   );
 }
 bootstrap();
