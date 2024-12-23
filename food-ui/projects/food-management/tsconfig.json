@@ -9,6 +9,8 @@
       "@pipes/*": ["app/pipes/*"],
       "@images/*": ["app/static/images/*"],
       "@utils/*": ["app/utils/*"],
+      "@services/*": ["app/services/*"],
+      "@interfaces": ["app/interfaces/index.ts"],
     },
   }
 }

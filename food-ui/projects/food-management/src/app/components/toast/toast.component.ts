@@ -19,9 +19,11 @@ import { ToastBehaviorDirective, IToastTemplate } from './directives/toast-behav
 export class ToastComponent {
   @ContentChildren(ToastBehaviorDirective)
   toastContent?: QueryList<ToastBehaviorDirective>;
-  @Input() body?: TemplateRef<unknown>;
-  @Input() header?: TemplateRef<unknown>;
-  @Input() toastInstance?: ComponentRef<this>;
+  @Input({ required: false }) body?: TemplateRef<unknown>;
+  @Input({ required: false }) header?: TemplateRef<unknown>;
+  @Input({ required: true }) toastInstance?: ComponentRef<this>;
+  @Input({ required: false }) headerText?: string;
+  @Input({ required: false }) bodyText?: string;
 
   findContent(name: 'header' | 'body'): TemplateRef<IToastTemplate | undefined> | undefined {
     return this.toastContent?.find(template => template.toastBehavior === name)!.el;
