@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { CategoryController } from './category.controller';
 import { CategoryService } from './category.service';
 import { CacheInterceptor } from '@nestjs/cache-manager';
@@ -7,7 +7,6 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ShareModule } from '@share';
 import { ConfigService } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
-import { LoggerService } from '@share/logger/logger.service';
 
 @Module({
   providers: [
@@ -42,7 +41,7 @@ import { LoggerService } from '@share/logger/logger.service';
   controllers: [CategoryController],
 })
 export class CategoryModule {
-  private readonly logger = new LoggerService(CategoryModule.name);
+  private readonly logger = new Logger(CategoryModule.name);
 
   onApplicationBootstrap(): void {
     this.logger.log('Category module start!');

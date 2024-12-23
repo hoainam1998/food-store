@@ -1,0 +1,15 @@
+{
+  "extends": "../../../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@decorators/*": ["decorators/*"],
+      "@share": [
+        "../../../../../libs/share/src"
+      ],
+      "@share/*": [
+        "../../../../../libs/share/src/*"
+      ],
+    }
+  }
+}

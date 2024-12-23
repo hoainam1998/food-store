@@ -1,41 +1,39 @@
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { CategoryService } from './category.service';
-import { catchError, map, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { messageCreator } from '@share/utils';
 import { CategoryInDTO } from '@share/dto/category/category-in.dto';
 import { AxiosResponse } from 'axios';
 import { IResponse } from '@share';
-import { LoggerService } from '@share/logger/logger.service';
+import { PaginationDTO } from '@share/dto/pagination.dto';
+import { CategoryOutDTO } from '@share/dto/category/category-out.dto';
+import { ControllerWrapper } from '@decorators/controller-wrapper.decorator';
+import { WrapperWithLogger } from '@share/decorators/class-wrapper-logger/class-wrapper-logger.decorator';
 
 @Controller('category')
+@WrapperWithLogger
 export class CategoryController {
-  private readonly logger = new LoggerService(CategoryController.name);
-
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post('create-category')
+  @HttpCode(200)
+  @ControllerWrapper
   createCategory(@Body() category: CategoryInDTO): Observable<IResponse> {
-    this.logger.log('Calling to category graphql!');
+    return this.categoryService
+      .createCategory(category)
+      .pipe(
+        map((response: AxiosResponse) =>
+          messageCreator(response.data.data.create.message),
+        ),
+      );
+  }
 
-    return this.categoryService.createCategory(category).pipe(
-      map((response: AxiosResponse) => {
-        if (response.status === HttpStatus.OK) {
-          this.logger.debug(response.data.data.create.message);
-          return messageCreator(response.data.data.create.message);
-        }
-        this.logger.debug(
-          `Request to category graphql error with: ${JSON.stringify(response.data)}`,
-        );
-        return messageCreator('Category create fail!');
-      }),
-      catchError(async (error) => {
-        this.logger.error(
-          `Request to category graphql failed with: ${error.message}`,
-        );
-        return messageCreator(
-          `Request to category graphql failed with: ${error.message}`,
-        );
-      }),
-    );
+  @Post('pagination')
+  @HttpCode(200)
+  @ControllerWrapper
+  pagination(@Body() pagination: PaginationDTO): Observable<CategoryOutDTO[]> {
+    return this.categoryService
+      .pagination(pagination)
+      .pipe(map((response: AxiosResponse) => response.data.data.pagination));
   }
 }

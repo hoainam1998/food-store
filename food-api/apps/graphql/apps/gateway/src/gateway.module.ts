@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { IntrospectAndCompose } from '@apollo/gateway';
@@ -7,8 +7,7 @@ import { HttpModule } from '@nestjs/axios';
 import { CategoryController } from './category/category.controller';
 import { CategoryService } from './category/category.service';
 import { EnvironmentConfigModule } from '@share/config/environment-config.module';
-import { config } from 'dotenv';
-config();
+import { QueryParserMiddleware } from './middlewares/query-parser.middleware';
 
 @Module({
   imports: [
@@ -42,4 +41,8 @@ config();
   controllers: [CategoryController],
   providers: [CategoryService],
 })
-export class GatewayModule {}
+export class GatewayModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(QueryParserMiddleware).forRoutes('*');
+  }
+}

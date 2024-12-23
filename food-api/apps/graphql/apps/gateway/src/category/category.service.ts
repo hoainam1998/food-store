@@ -1,20 +1,29 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { CategoryInDTO } from '@share/dto/category/category-in.dto';
-import { LoggerService } from '@share/logger/logger.service';
 import { AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
+import { IResponse } from '@share';
+import { CategoryInDTO } from '@share/dto/category/category-in.dto';
+import { CategoryOutDTO } from '@share/dto/category/category-out.dto';
+import { PaginationDTO } from '@share/dto/pagination.dto';
+import { ServiceWrapper } from '@decorators/service-wrapper.decorator';
+import { WrapperWithLogger } from '@share/decorators/class-wrapper-logger/class-wrapper-logger.decorator';
+
+interface GraphqlRequestBody {
+  query: string;
+  variables: Record<string, any>;
+}
 
 @Injectable()
+@WrapperWithLogger
 export class CategoryService {
-  private readonly logger = new LoggerService(CategoryService.name);
   constructor(private readonly http: HttpService) {}
 
+  @ServiceWrapper
   createCategory(
     category: CategoryInDTO,
-  ): Observable<AxiosResponse<AxiosResponse>> {
-    this.logger.log('Requesting to category graphql service!');
-    const requestBody = {
+  ): Observable<AxiosResponse<IResponse>> {
+    const requestBody: GraphqlRequestBody = {
       query: `
         mutation CreateCategory($category: CategoryInput!) {
           create(category: $category) {
@@ -23,6 +32,26 @@ export class CategoryService {
         }`,
       variables: {
         category,
+      },
+    };
+    return this.http.post('/', requestBody);
+  }
+
+  @ServiceWrapper
+  pagination(
+    pagination: PaginationDTO,
+  ): Observable<AxiosResponse<CategoryOutDTO[]>> {
+    const requestBody: GraphqlRequestBody = {
+      query: `
+        query CategoryPagination($pageSize: Float!, $pageNumber: Float!) {
+          pagination(pageSize: $pageSize, pageNumber: $pageNumber) {
+            ${pagination.queries}
+          }
+        }
+      `,
+      variables: {
+        pageSize: pagination.pageSize,
+        pageNumber: pagination.pageNumber,
       },
     };
     return this.http.post('/', requestBody);
