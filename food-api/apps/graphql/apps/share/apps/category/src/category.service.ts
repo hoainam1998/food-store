@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Prisma, PrismaClient } from '@prisma/client';
-import { IResponse } from '@share';
+import { IPagination, IResponse } from '@share';
 import { CategoryOutDTO } from '@share/dto/category/category-out.dto';
 import { PRISMA } from '@share/share.di-token';
 import { messageCreator } from '@share/utils';
@@ -41,17 +41,23 @@ export class CategoryService {
   async pagination(
     pageSize: number,
     pageNumber: number,
-  ): Promise<CategoryOutDTO[]> {
+  ): Promise<IPagination<CategoryOutDTO>> {
     this.logger.log('Pagination category!');
 
     try {
-      return await this.prisma.category.findMany({
-        take: pageSize,
-        skip: (pageNumber - 1) * pageSize,
-      });
+      return {
+        list: await this.prisma.category.findMany({
+          take: pageSize,
+          skip: (pageNumber - 1) * pageSize,
+        }),
+        total: await this.prisma.category.count(),
+      };
     } catch (error) {
       this.logger.error(error.message);
-      return [];
+      return {
+        list: [],
+        total: 0,
+      };
     }
   }
 }

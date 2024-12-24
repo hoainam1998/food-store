@@ -10,12 +10,12 @@ export const ControllerWrapper: MethodDecorator = (
   const originMethod = descriptor.value;
   descriptor.value = function (...args): Observable<any> {
     try {
-      this.logger.log('Calling category microservice service!');
+      this.logger?.log('Calling category microservice service!');
 
       return originMethod.call(this, ...args).pipe(
         map((response: AxiosResponse<any>) => response.data),
         catchError(async (err) => {
-          this.logger.error(
+          this.logger?.error(
             `Send request to graphql gateway failed width: ${err.message}`,
           );
           throw new Error(
@@ -24,8 +24,7 @@ export const ControllerWrapper: MethodDecorator = (
         }),
       );
     } catch (error) {
-      console.log(error, 'r');
-      this.logger.error(error.message);
+      this.logger?.error(error.message);
       throw new BadRequestException(error.message);
     }
   };

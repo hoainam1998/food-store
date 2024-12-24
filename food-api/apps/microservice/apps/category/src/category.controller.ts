@@ -6,7 +6,7 @@ import {
   PAGINATION_CATEGORY,
 } from '@share/patterns/category.pattern';
 import { CategoryInDTO } from '@share/dto/category/category-in.dto';
-import { IResponse } from '@share';
+import { IPagination, IResponse } from '@share';
 import { Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { PaginationDTO } from '@share/dto/pagination.dto';
@@ -29,7 +29,7 @@ export class CategoryController {
   @ControllerWrapper
   pagination(
     pagination: PaginationDTO,
-  ): Observable<AxiosResponse<CategoryOutDTO[]>> {
+  ): Observable<AxiosResponse<IPagination<CategoryOutDTO>>> {
     return this.categoryService.pagination(pagination);
   }
 }

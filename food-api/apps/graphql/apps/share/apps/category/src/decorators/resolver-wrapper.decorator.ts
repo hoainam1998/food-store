@@ -5,7 +5,7 @@ export const ResolverWrapper: MethodDecorator = (
 ) => {
   const originMethod = descriptor.value;
   descriptor.value = function (...args): Promise<any> {
-    this.logger.log('Calling category graphql service!');
+    this.logger?.log('Calling category graphql service!');
 
     return originMethod.call(this, ...args);
   };

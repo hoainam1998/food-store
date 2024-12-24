@@ -1,10 +1,14 @@
 import { IsOptional } from 'class-validator';
 import { CategoryDto } from './category';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose, Transform } from 'class-transformer';
 
 export class CategoryOutDTO extends CategoryDto {
-  @Exclude()
+  @Exclude({ toClassOnly: true })
   category_id: string;
+
+  @Expose()
+  @Transform(({ obj }) => obj.category_id)
+  categoryId?: string;
 
   @IsOptional()
   avatar: unknown;

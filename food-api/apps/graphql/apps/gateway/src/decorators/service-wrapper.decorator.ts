@@ -8,7 +8,7 @@ export const ServiceWrapper: MethodDecorator = (
 ) => {
   const originMethod = descriptor.value;
   descriptor.value = function (...args): Observable<AxiosResponse<any>> {
-    this.logger.log('Requesting to category graphql service!');
+    this.logger?.log('Requesting to category graphql service!');
 
     return originMethod.call(this, ...args);
   };

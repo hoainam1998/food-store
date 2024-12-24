@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
-import { IResponse } from '@share';
+import { IPagination, IResponse } from '@share';
 import { CategoryInDTO } from '@share/dto/category/category-in.dto';
 import { CategoryOutDTO } from '@share/dto/category/category-out.dto';
 import { PaginationDTO } from '@share/dto/pagination.dto';
@@ -40,12 +40,15 @@ export class CategoryService {
   @ServiceWrapper
   pagination(
     pagination: PaginationDTO,
-  ): Observable<AxiosResponse<CategoryOutDTO[]>> {
+  ): Observable<AxiosResponse<IPagination<CategoryOutDTO[]>>> {
     const requestBody: GraphqlRequestBody = {
       query: `
         query CategoryPagination($pageSize: Float!, $pageNumber: Float!) {
           pagination(pageSize: $pageSize, pageNumber: $pageNumber) {
-            ${pagination.queries}
+            list {
+              ${pagination.queries}
+            },
+            total
           }
         }
       `,

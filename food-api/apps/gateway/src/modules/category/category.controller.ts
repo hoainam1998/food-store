@@ -1,29 +1,26 @@
 import {
   BadRequestException,
   Body,
-  ClassSerializerInterceptor,
   Controller,
   HttpCode,
   Logger,
   Post,
-  SerializeOptions,
   UseInterceptors,
 } from '@nestjs/common';
-import { catchError, Observable } from 'rxjs';
-import { plainToClass } from 'class-transformer';
+import { catchError, map, Observable, tap } from 'rxjs';
+import { plainToClass, plainToInstance } from 'class-transformer';
 import { CategoryService } from './category.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageUpload } from '@share/decorators/param/image-upload/image-upload.decorator';
 import { CategoryInDTO } from '@share/dto/category/category-in.dto';
-import { IResponse } from '@share';
+import { IPagination, IResponse } from '@share';
 import { PaginationDTO } from '@share/dto/pagination.dto';
 import { CategoryOutDTO } from '@share/dto/category/category-out.dto';
-import { ControllerWrapper } from '@decorators/controller-wrapper/controller-wrapper.decorator';
+import { ControllerWrapper } from '@decorators/controller-wrapper.decorator';
 
 @Controller('category')
 export class CategoryController {
   private readonly logger = new Logger(CategoryController.name);
-
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post('create')
@@ -46,12 +43,17 @@ export class CategoryController {
       );
   }
 
-  @UseInterceptors(ClassSerializerInterceptor)
-  @SerializeOptions({ type: CategoryOutDTO })
   @Post('pagination')
   @HttpCode(200)
   @ControllerWrapper
-  pagination(@Body() pagination: PaginationDTO): Observable<CategoryOutDTO[]> {
-    return this.categoryService.pagination(pagination);
+  pagination(
+    @Body() pagination: PaginationDTO,
+  ): Observable<IPagination<CategoryOutDTO>> {
+    return this.categoryService.pagination(pagination).pipe(
+      map((response) => ({
+        ...response,
+        list: plainToInstance(CategoryOutDTO, response.list),
+      })),
+    );
   }
 }

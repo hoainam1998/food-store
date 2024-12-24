@@ -7,7 +7,7 @@ export const ServiceWrapper = (
 ) => {
   const originMethod = descriptor.value;
   descriptor.value = function (...args): Observable<any> {
-    this.logger.log('Calling to category graphql');
+    this.logger?.log('Calling to category graphql');
     return originMethod.call(this, ...args);
   };
   return descriptor;

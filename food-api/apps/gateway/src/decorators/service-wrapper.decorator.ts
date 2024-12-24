@@ -1,6 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
-
-export const ControllerWrapper: MethodDecorator = (
+export const ServiceWrapper: MethodDecorator = (
   target: object,
   propertyKey: string | symbol,
   descriptor: TypedPropertyDescriptor<any>,
@@ -8,11 +6,13 @@ export const ControllerWrapper: MethodDecorator = (
   const originMethod = descriptor.value;
   descriptor.value = function (...args) {
     try {
-      this.logger.log('Calling category service!');
+      this.logger?.log('Send message to category microservice');
       return originMethod.call(this, ...args);
     } catch (error) {
-      this.logger.error(error.message);
-      throw new BadRequestException(error.message);
+      this.logger?.error(
+        `Send message to category microservice failed with: ${error.message}`,
+      );
+      throw error;
     }
   };
   return descriptor;

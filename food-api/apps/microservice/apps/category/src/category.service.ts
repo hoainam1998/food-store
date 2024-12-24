@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
-import { IResponse } from '@share';
+import { IPagination, IResponse } from '@share';
 import { HttpService } from '@nestjs/axios';
 import { CategoryDto } from '@share/dto/category.dto';
 import { Observable } from 'rxjs';
@@ -26,7 +26,7 @@ export class CategoryService {
   @ServiceWrapper
   pagination(
     pagination: PaginationDTO,
-  ): Observable<AxiosResponse<CategoryOutDTO[]>> {
+  ): Observable<AxiosResponse<IPagination<CategoryOutDTO>>> {
     return this.http.post<any>('pagination', pagination);
   }
 }
