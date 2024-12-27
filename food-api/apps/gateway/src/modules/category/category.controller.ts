@@ -7,7 +7,7 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import { catchError, map, Observable, tap } from 'rxjs';
+import { catchError, map, Observable } from 'rxjs';
 import { plainToClass, plainToInstance } from 'class-transformer';
 import { CategoryService } from './category.service';
 import { FileInterceptor } from '@nestjs/platform-express';

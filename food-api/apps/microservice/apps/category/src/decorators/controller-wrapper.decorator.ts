@@ -18,9 +18,9 @@ export const ControllerWrapper: MethodDecorator = (
           this.logger?.error(
             `Send request to graphql gateway failed width: ${err.message}`,
           );
-          throw new Error(
+          return new BadRequestException(
             `Send request to graphql gateway failed width: ${err.message}`,
-          );
+          ).getResponse();
         }),
       );
     } catch (error) {

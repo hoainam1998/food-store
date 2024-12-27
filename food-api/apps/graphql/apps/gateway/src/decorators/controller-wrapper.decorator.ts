@@ -1,4 +1,4 @@
-import { messageCreator } from '@share/utils';
+import { BadRequestException } from '@nestjs/common';
 import { catchError, Observable } from 'rxjs';
 
 export const ControllerWrapper: MethodDecorator = (
@@ -12,11 +12,13 @@ export const ControllerWrapper: MethodDecorator = (
 
     return originMethod.call(this, ...args).pipe(
       catchError(async (error) => {
-        this.logger?.debug(JSON.stringify(error.response.data));
+        if (error.response) {
+          this.logger?.debug(JSON.stringify(error.response.data));
+        }
         this.logger?.error(
           `Request to category graphql failed with: ${error.message}`,
         );
-        return messageCreator(
+        throw new BadRequestException(
           `Request to category graphql failed with: ${error.message}`,
         );
       }),
