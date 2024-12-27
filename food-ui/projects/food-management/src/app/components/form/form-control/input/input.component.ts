@@ -8,18 +8,13 @@ import {
   Output,
   Injector,
 } from '@angular/core';
-
+import { stringTrim } from '@utils/utils';
 import {
   FormsModule,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule
 } from '@angular/forms';
-
 import { FormControlComponent, CONTROL_TYPE } from '@components/form/form-control/form-control.component';
-
-function stringTrim(value: string): string {
-  return value.trim();
-};
 
 @Component({
   selector: 'fm-input',

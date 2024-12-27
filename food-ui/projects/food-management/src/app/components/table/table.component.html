@@ -2,38 +2,43 @@
   <ng-content select="name"></ng-content>
   <ng-content select="price"></ng-content>
 </ng-template>
-<table class="table">
-  <colgroup>
-    @for(size of columnWidth(); track $index) {
-      <col [style]="size">
-    }
-  </colgroup>
-  <thead>
-    <tr>
-      @for(header of headers(); track $index) {
-        <th [class]="header.class" [style]="header.style">
-          {{ header.label }}
-        </th>
+<section class="table-wrapper">
+  <table class="table">
+    <colgroup>
+      @for(size of columnWidth(); track $index) {
+        <col [style]="size">
       }
-    </tr>
-  </thead>
-  <tbody>
-    @for(row of data; track $index) {
+    </colgroup>
+    <thead>
       <tr>
-        @for(key of keys(); track $index; let i = $index) {
-          <td>
-            @let template = getTemplate(key);
-            @if (template) {
-              <ng-container
-                [ngTemplateOutlet]="template"
-                [ngTemplateOutletContext]="{ item: row }" />
-            } @else {
-              {{ row[key] }}
-            }
-          </td>
+        @for(header of headers(); track $index) {
+          <th [class]="header.class" [style]="header.style">
+            {{ header.label }}
+          </th>
         }
       </tr>
-    }
-  </tbody>
-</table>
-<fm-pagination [total]="100" [pageSize]="10"></fm-pagination>
+    </thead>
+    <tbody>
+      @for(row of data; track $index) {
+        <tr>
+          @for(key of keys(); track $index; let i = $index) {
+            <td>
+              @let template = getTemplate(key);
+              @if (template) {
+                <ng-container
+                  [ngTemplateOutlet]="template"
+                  [ngTemplateOutletContext]="{ item: row }" />
+              } @else {
+                {{ row[key] }}
+              }
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+  <div class="table-footer">
+    <fm-select name="pageSize" [options]="options" [formControl]="pageSizeControl" (change)="pageSizeChange()"></fm-select>
+    <fm-pagination [total]="total" [pageSize]="this.pageSizeControl.value || 10" (pageNumberChange)="pageNumberChange($event)"></fm-pagination>
+  </div>
+</section>

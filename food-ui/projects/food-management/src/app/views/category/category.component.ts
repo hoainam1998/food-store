@@ -1,7 +1,6 @@
 import {
   Component,
   ElementRef,
-  OnInit,
   TemplateRef,
   viewChild,
   ViewChild,
@@ -12,28 +11,21 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Fields, TableComponent } from '@components/table/table.component';
 import { GridComponent } from '@components/grid/grid.component';
 import { GridItemComponent } from '@components/grid/grid-item/grid-item.component';
 import { FormComponent } from '@components/form/form.component';
 import { FormControlService } from 'app/services/form-control-service/form-control.service';
 import { FormControlBase } from 'app/services/form-control-service/form-control-base';
 import { FormTemplateDirective } from '@components/form/directive/form-template.directive';
-import { CategoryService } from 'app/services/http/category/category.service';
-import { ToastBehaviorDirective } from '@components/toast/directives/toast-behavior.directive';
-import { ToastService } from 'app/services/toast/toast.service';
-
-interface ICategoryList {
-  categoryId: string;
-  avatar: string;
-  name: string;
-}
+import { CategoryService } from '@views/category/category.service';
+import { IToastTemplate, ToastBehaviorDirective } from '@components/toast/directives/toast-behavior.directive';
+import { ICategory } from '@interfaces';
+import { TableModule, Fields } from '@components/table/table.module';
 
 @Component({
   selector: 'fm-category',
   standalone: true,
   imports: [
-    TableComponent,
     GridComponent,
     GridItemComponent,
     FormComponent,
@@ -41,14 +33,17 @@ interface ICategoryList {
     FormsModule,
     ReactiveFormsModule,
     ToastBehaviorDirective,
+    TableModule
   ],
   templateUrl: './category.component.html',
   styleUrl: './category.component.scss',
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent {
   @ViewChild('form') formElement?: ElementRef;
-  header = viewChild<TemplateRef<unknown>>('header');
-  body = viewChild<TemplateRef<unknown>>('body');
+  header = viewChild<TemplateRef<IToastTemplate>>('header');
+  body = viewChild<TemplateRef<IToastTemplate>>('body');
+  categories: ICategory[] = [];
+  total = 0;
 
   categoryForm: FormControlBase<string>[] = [
     new FormControlBase<string>({
@@ -80,17 +75,10 @@ export class CategoryComponent implements OnInit {
   constructor(
     private formControlService: FormControlService,
     private categoryService: CategoryService,
-    private toastService: ToastService,
   ) {
     this.categoryFormGroups = this.formControlService.toFormGroup(
       this.categoryForm
     );
-  }
-
-  ngOnInit() {
-    this.formControlService.getControl
-      .call(this.categoryFormGroups, 'name')
-      .setValue('hn');
   }
 
   fields: Fields[] = [
@@ -104,19 +92,6 @@ export class CategoryComponent implements OnInit {
     },
   ];
 
-  data: ICategoryList[] = [
-    {
-      categoryId: '13333',
-      avatar: 'avatar',
-      name: 'name',
-    },
-    {
-      categoryId: '13333',
-      avatar: 'avatar',
-      name: 'name',
-    },
-  ];
-
   formSubmit(): void {
     const formData = new FormData();
     for (const [key, value] of Object.entries(this.categoryFormGroups!.value)) {
@@ -127,5 +102,12 @@ export class CategoryComponent implements OnInit {
       }
     }
     this.categoryService.createCategory(formData);
+  }
+
+  pagination({ pageSize, pageNumber } : { pageSize: number, pageNumber: number }): void {
+    this.categoryService.pagination(pageSize, pageNumber).subscribe(pagination => {
+      this.categories = pagination.list;
+      this.total = pagination.total;
+    });
   }
 }

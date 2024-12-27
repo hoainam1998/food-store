@@ -1,7 +1,9 @@
 <fm-form-control [label]="label">
-  <select class="select">
-    @for(option of options; track $index) {
-      <option [value]="option.value">{{ option.label }}</option>
+  <select class="select" [name]="name" (change)="change($event)">
+    @for (option of options; track $index) {
+      <option [value]="option.value" [selected]="this.value === option.value">
+        {{ option.label }}
+      </option>
     }
   </select>
 </fm-form-control>

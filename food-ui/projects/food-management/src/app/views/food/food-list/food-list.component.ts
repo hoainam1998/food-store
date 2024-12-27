@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import { TableComponent, Fields } from '@components/table/table.component';
 import {
-  SelectComponent,
   IOptions,
 } from '@components/form/form-control/select/select.component';
-import { TableColumnTemplateDirective } from '@components/table/directives/table-column-template.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TableModule, Fields } from '@components/table/table.module';
 
 interface IFoodDataInformation {
   name: string;
@@ -16,11 +14,10 @@ interface IFoodDataInformation {
   selector: 'fm-food-list',
   standalone: true,
   imports: [
-    TableComponent,
-    SelectComponent,
-    TableColumnTemplateDirective,
     FormsModule,
+
     ReactiveFormsModule,
+    TableModule
   ],
   templateUrl: './food-list.component.html',
   styleUrl: './food-list.component.scss',

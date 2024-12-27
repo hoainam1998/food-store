@@ -11,6 +11,7 @@
       "@utils/*": ["app/utils/*"],
       "@services/*": ["app/services/*"],
       "@interfaces": ["app/interfaces/index.ts"],
+      "@modules/*": ["app/modules/*"],
     },
   }
 }

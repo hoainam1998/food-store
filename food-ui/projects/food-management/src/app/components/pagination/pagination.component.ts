@@ -1,11 +1,19 @@
-import { Component, HostListener, Input, ViewEncapsulation, WritableSignal } from '@angular/core';
-import { ButtonComponent } from '@components/button/button.component';
+import {
+  Component,
+  effect,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  ViewEncapsulation,
+  WritableSignal
+} from '@angular/core';
 import { PaginationBehaviorDirective, IPage } from './directives/pagination-behavior.directive';
 
 @Component({
   selector: 'fm-pagination',
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [],
   encapsulation: ViewEncapsulation.ShadowDom,
   hostDirectives: [{
     directive: PaginationBehaviorDirective,
@@ -16,10 +24,17 @@ import { PaginationBehaviorDirective, IPage } from './directives/pagination-beha
   styleUrl: './pagination.component.scss'
 })
 export class PaginationComponent {
-  @Input() total?: number;
-  @Input() pageSize?: number;
+  @Input({ required: true }) total?: number;
+  @Input({ required: true }) pageSize?: number;
+  @Output() pageNumberChange = new EventEmitter<number>();
   pages: IPage[] = [];
   page?: WritableSignal<number>;
+
+  constructor() {
+    effect(() => {
+      this.pageNumberChange.emit(this.page!());
+    });
+  }
 
   @HostListener('retrievePages', ['$event']) onGetPages(pages: IPage[]) {
     this.pages = pages;

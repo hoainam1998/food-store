@@ -1,6 +1,10 @@
 <fm-grid>
   <fm-grid-item lg="8">
-    <fm-table [fields]="fields" [data]="data"></fm-table>
+    <fm-table [fields]="fields" [data]="categories" [total]="total" (pagination)="pagination($event)">
+      <ng-template tableColumnTemplate="avatar" let-item="item">
+        <img class="avatar" [src]="item.avatar" alt="avatar" />
+      </ng-template>
+    </fm-table>
   </fm-grid-item>
   <fm-grid-item lg="4">
     <fm-form

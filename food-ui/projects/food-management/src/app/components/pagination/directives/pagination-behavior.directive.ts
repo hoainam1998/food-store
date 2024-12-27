@@ -8,36 +8,43 @@ import {
   computed,
   effect,
   signal,
-  AfterContentInit
+  AfterContentInit,
+  OnChanges,
 } from '@angular/core';
 
-export interface IPage  {
+export interface IPage {
   dots: boolean;
   active: boolean;
   page: null | number;
 }
 
-const createPage = (page: IPage['page'], dots: IPage['dots'], active: IPage['active']): IPage => {
-  return { dots,  page, active };
+const createPage = (
+  page: IPage['page'],
+  dots: IPage['dots'],
+  active: IPage['active']
+): IPage => {
+  return { dots, page, active };
 };
 
 @Directive({
   selector: '[paginationBehavior]',
-  standalone: true
+  standalone: true,
 })
-export class PaginationBehaviorDirective implements AfterContentInit {
+export class PaginationBehaviorDirective implements AfterContentInit, OnChanges {
   @Input() total?: number;
   @Input() pageSize?: number;
   @Output() retrievePages = new EventEmitter<IPage[]>();
   @Output() accessPage = new EventEmitter<WritableSignal<number>>();
 
-  pageNumber = 21;
+  pageNumber = signal(0);
   pageActive = signal(1);
+
   pageList = computed<IPage[]>(() => {
-    if (this.pageNumber > 10) {
+    const pageNum = this.pageNumber();
+    if (pageNum > 10) {
       let pageSelected = this.pageActive();
       const firstPages = [1, 2, 3];
-      const lastPages = [this.pageNumber - 1, this.pageNumber];
+      const lastPages = [pageNum - 1, pageNum];
 
       if (firstPages.includes(this.pageActive())) {
         pageSelected = firstPages[firstPages.length - 1] + 1;
@@ -84,35 +91,48 @@ export class PaginationBehaviorDirective implements AfterContentInit {
         const missingElements = 5 - pageSelects.length;
         if (pageSelects[pageSelects.length - 1] === 0) {
           for (let i = 0; i < missingElements; i++) {
-            pageSelects.push((lastPages[0] - (missingElements - i)));
+            pageSelects.push(lastPages[0] - (missingElements - i));
           }
-        }
-        else if (pageSelects[0] === 0) {
+        } else if (pageSelects[0] === 0) {
           for (let i = 0; i < missingElements; i++) {
-            pageSelects.unshift((firstPages[firstPages.length - 1] + (missingElements - i)));
+            pageSelects.unshift(
+              firstPages[firstPages.length - 1] + (missingElements - i)
+            );
           }
         }
       }
 
-      return firstPages.concat(pageSelects).concat(lastPages)
-        .map(page => createPage(
-          page === 0 ? null : page,
-          page === 0,
-          page == this.pageActive()
-        ));
+      return firstPages
+        .concat(pageSelects)
+        .concat(lastPages)
+        .map((page) =>
+          createPage(
+            page === 0 ? null : page,
+            page === 0,
+            page == this.pageActive()
+          )
+        );
     }
 
-    return [...Array(this.pageNumber)]
-      .map((_, index) => createPage(index + 1,false, index + 1 === this.pageActive()));
+    return [...Array(pageNum)].map((_, index) =>
+      createPage(index + 1, false, index + 1 === this.pageActive())
+    );
   });
 
   constructor(public el: ElementRef) {
-    effect(() => {
-      this.retrievePages.emit(this.pageList());
-    });
+    effect(() => this.retrievePages.emit(this.pageList()));
   }
 
   ngAfterContentInit() {
     this.accessPage.emit(this.pageActive);
+  }
+
+  ngOnChanges() {
+    if (this.pageSize && this.total) {
+      const remain = this.total % this.pageSize;
+      const pages = (this.total - remain) / this.pageSize;
+      const pageRemain = remain === 0 ? 0 : 1;
+      this.pageNumber.set(pages + pageRemain);
+    }
   }
 }

@@ -55,3 +55,11 @@ export class Utils {
     }, new DataTransfer()).files;
   }
 }
+
+function stringTrim(value: string): string {
+  return value.trim();
+};
+
+export {
+  stringTrim
+};
